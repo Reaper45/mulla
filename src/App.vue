@@ -1,15 +1,20 @@
 <template>
-  <div id="app">
-    <router-view/>
+  <div id="app" class="container">
+    <Nav></Nav>
+    <div class="mt-4">
+      <router-view/>
+    </div>
   </div>
 </template>
-
 <script>
+import Nav from './components/Nav.vue'
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    Nav
+  }
 }
 </script>
-
 <style>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -17,6 +22,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
