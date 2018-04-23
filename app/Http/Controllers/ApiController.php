@@ -8,6 +8,12 @@ use Illuminate\Http\Response;
 
 class ApiController extends Controller
 {
+    private $accessKey = "";
+
+    public function __construct()
+    {
+        $this->accessKey = env('MULLA_ACCESS_KEY');
+    }
 
     public function express_pay (Request $request, Response $response) {
         $payload = array(

@@ -9,7 +9,6 @@ use Ramsey\Uuid\Uuid;
 
 class HomeController extends Controller
 {
-    private $accessKey = '$2a$08$40QhITVE/4NHIxthQc4dEu4oPgUm/YZmhCPp2KguOJB53iYiRp3L2';
     /**
      * Create a new controller instance.
      *

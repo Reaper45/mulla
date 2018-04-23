@@ -24,8 +24,8 @@ class EncryptParameters
      */
     public function __construct()
     {
-        $this->iv = 'hdfbgVJKN4B8pcvy';
-        $this->key = 'GhKXrNFWcgvTB6Pf';
+        $this->iv = env('MULLA_IV');
+        $this->key = env('MULLA_KEY');
     }
     /**
      * Encrypt the string of customer details with the IV and secret key.
