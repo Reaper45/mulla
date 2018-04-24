@@ -42,7 +42,11 @@ return [
         ],
 
         'api' => [
+<<<<<<< HEAD
             'driver' => 'token',
+=======
+            'driver' => 'passport',
+>>>>>>> fb9514f381bd8f519fd75e3b68673e1da98dcad4
             'provider' => 'users',
         ],
     ],

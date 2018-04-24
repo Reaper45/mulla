@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Str;
 
 class ApiController extends Controller
 {
@@ -66,5 +65,4 @@ class ApiController extends Controller
         $encrypted = base64_encode($encrypted);
         return $encrypted;
     }
-
 }
