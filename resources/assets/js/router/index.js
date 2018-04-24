@@ -5,7 +5,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Products from '../views/Products.vue'
 import Checkout from '../views/Checkout.vue'
-import ExpressPayment from '../views/ExpressPayment.vue'
 
 Vue.use(Router)
 
@@ -21,11 +20,6 @@ export default new Router({
       path: '/checkout',
       name: 'Checkout',
       component: Checkout
-    },
-    {
-      path: '/express-pay',
-      name: 'ExpressPayment',
-      component: ExpressPayment
     }
   ]
 })

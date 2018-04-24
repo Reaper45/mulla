@@ -25,9 +25,8 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div id="app">
-    </div>
-    <!-- Include the mula Express checkout library -->
-    <script type="text/javascript" src="https://beep2.cellulant.com:9001/CheckoutV2/checkout/mula-modal/bundle.js" charset="utf-8"></script>
+<div class="pt-4">
+    @yield('content')
+</div>
 </body>
 </html>

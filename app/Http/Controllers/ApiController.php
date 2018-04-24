@@ -2,46 +2,69 @@
 
 namespace App\Http\Controllers;
 
-use App\EncryptParameters;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Str;
 
 class ApiController extends Controller
 {
-    private $accessKey = "";
+    private $iv;
+    private $key;
+    private $accessKey;
 
     public function __construct()
     {
+        $this->iv = env('MULLA_IV');
+        $this->key = env('MULLA_KEY');
         $this->accessKey = env('MULLA_ACCESS_KEY');
     }
 
     public function express_pay (Request $request, Response $response) {
         $payload = array(
-            'transactionID' => Uuid::uuid4(), // The merchant's unique transaction identifier.
+            'transactionID' => '0001',
             'customerFirstName' => $request->get('fname'),
             'customerLastName' => $request->get('lname'),
-            'MSISDN' => $request->get('phone_number'), // The customer's mobile number.
+            'MSISDN' => $request->get('phone_number'),
             'customerEmail' => $request->get('email'),
-            'amount' => $request->get('total'),
+            'amount' => $request->get('amount'),
             'currency' => 'KES',
-            'reference' => '', // The account number/reference number for the transaction.
-            'serviceCode' => '', // The merchant's service code.
-            'productCode' => '',
-            'dueDate' => '',
-            'serviceDescription' => '', // The transaction's narrative.
-            'countryCode' => '', // The merchant's default country country code.
-            'language' => '',
-            'callBackUrl' => '',
-            'webhookPaymentUrl' => '',
-            'failedCallBackUrl' => ''
+            'reference' => '10001',
+            'serviceCode' => env('MULLA_SERVICE_CODE'),
+            'productCode' => '100',
+            'dueDate' => Carbon::now()->addDay(),
+            'serviceDescription' => 'Payment for purchase',
+            'countryCode' => 'KE',
+            'language' => 'en',
+            'callBackUrl' => $request->server('HTTP_ORIGIN').'/express-pay',
+            'webhookPaymentUrl' => $request->server('HTTP_ORIGIN'),
+            'failedCallBackUrl' => $request->server('HTTP_ORIGIN').'/express-pay'
         );
-        $encryptParams = new EncryptParameters;
-        $encryptedParams = $encryptParams->encryptData($payload);
+        $encryptedParams = $this->encryptData($payload);
 
-        return $response->json(array(
-            'countryCode' => '+254',
-            'accessKey' => $this->accessKey,
-            'params' => $encryptedParams
-        ));
+        return array(
+            'COUNTRY_CODE' => 'KE',
+            'ACCESS_KEY' => $this->accessKey,
+            'PARAMS' => $encryptedParams
+        );
     }
+
+    public function encryptData($payload = [])
+    {
+        $encrypt_method = "AES-256-CBC";
+        $key = hash('sha256', $this->key);
+        $iv = substr(hash('sha256', $this->iv), 0, 16);
+
+        $encrypted = openssl_encrypt(
+            json_encode($payload, true),
+            $encrypt_method,
+            $key,
+            0,
+            $iv
+        );
+        //Base 64 Encode the encrypted payload
+        $encrypted = base64_encode($encrypted);
+        return $encrypted;
+    }
+
 }

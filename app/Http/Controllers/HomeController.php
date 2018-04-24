@@ -2,10 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\EncryptParameters;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Ramsey\Uuid\Uuid;
 
 class HomeController extends Controller
 {
@@ -15,7 +11,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-//        $this->middleware('auth');
+        $this->middleware('auth');
     }
 
     /**
