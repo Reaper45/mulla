@@ -28533,7 +28533,6 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils__ = __webpack_require__(72);
 //
 //
 //
@@ -28604,24 +28603,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Checkout',
-  mounted: function mounted() {
-    MulaCheckout.renderCheckoutButton();
-  },
   data: function data() {
     return {
+      num: 1,
       lname: '',
       fname: '',
       email: '',
@@ -28646,29 +28633,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     }
   },
   methods: {
-    handleCustomPayment: function handleCustomPayment() {
-      var params = {
-        fname: this.fname,
-        lname: this.lname,
+    onRedirect: function onRedirect() {
+      var data = {
+        name: this.name,
         email: this.email,
-        phone_number: this.phoneNumber,
-        amount: this.total
+        phoneNumber: this.phoneNumber,
+        total: this.total
       };
-      Object(__WEBPACK_IMPORTED_MODULE_0__utils__["a" /* getPaymentOptions */])(params);
+      if (this.formIsValid) {
+        console.log(data);
+      }
     },
-    handlePayment: function handlePayment() {
-      var params = {
+    onExpressPay: function onExpressPay() {
+      var data = {
         fname: this.fname,
         lname: this.lname,
         email: this.email,
         phone_number: this.phoneNumber,
-        amount: this.total
+        total: this.total
       };
-      MulaCheckout.renderCheckoutPage({
-        checkoutType: 'modal',
-        params: params,
-        url: "http://localhost:5000/api/v1" + '/express-pay'
-      });
+      if (this.formIsValid) {
+        sessionStorage.setItem('expressPayData', JSON.stringify(data));
+        this.$router.push('express-pay');
+      }
     }
   }
 });
@@ -28681,250 +28668,209 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _vm.products.length === 0
-      ? _c("div", [
-          _vm._m(0),
-          _vm._v(" "),
-          _c(
-            "p",
-            {
-              staticClass: "text-muted font-weight-bold pb-5",
-              staticStyle: { "font-size": "2em" }
-            },
-            [_vm._v("Your Cart is Empyt")]
-          )
-        ])
-      : _c("div", [
+  return _c("div", {}, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-8" }, [
+        _c("table", { staticClass: "table" }, [
           _vm._m(1),
           _vm._v(" "),
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col-8" }, [
-              _c("table", { staticClass: "table" }, [
-                _vm._m(2),
-                _vm._v(" "),
-                _c(
-                  "tbody",
-                  [
-                    _vm._l(_vm.products, function(product, index) {
-                      return _c("tr", { key: index }, [
-                        _c("th", { attrs: { scope: "row" } }, [
-                          _vm._v(_vm._s(index))
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(product.title))]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v("Ksh. " + _vm._s(product.price))]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _vm._v(
-                            _vm._s(product.qty) +
-                              " \n                            "
-                          ),
-                          _vm._m(3, true)
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(product.price * product.qty))])
-                      ])
-                    }),
-                    _vm._v(" "),
-                    _c("tr", [
-                      _c("td", { attrs: { colspan: "4" } }),
-                      _vm._v(" "),
-                      _c("td", { staticClass: "border-bottom" }, [
-                        _vm._v("Total Ksh: " + _vm._s(_vm.total))
-                      ])
-                    ])
-                  ],
-                  2
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-4" }, [
-              _c("form", { staticClass: "text-left" }, [
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.fname,
-                          expression: "fname"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "text", placeholder: "First name" },
-                      domProps: { value: _vm.fname },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.fname = $event.target.value
-                        }
-                      }
-                    })
+          _c(
+            "tbody",
+            [
+              _vm._l(_vm.products, function(product, index) {
+                return _c("tr", { key: index }, [
+                  _c("th", { attrs: { scope: "row" } }, [
+                    _vm._v(_vm._s(_vm.num++))
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "col" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.lname,
-                          expression: "lname"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "text", placeholder: "Last name" },
-                      domProps: { value: _vm.lname },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.lname = $event.target.value
-                        }
-                      }
-                    })
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", { attrs: { for: "email" } }, [
-                    _vm._v("Email address")
+                  _c("td", [_vm._v(_vm._s(product.title))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v("Ksh. " + _vm._s(product.price))]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _vm._v(_vm._s(product.qty) + " \n                        "),
+                    _vm._m(2, true)
                   ]),
                   _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.email,
-                        expression: "email"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: {
-                      type: "email",
-                      id: "email",
-                      "aria-describedby": "emailHelp",
-                      placeholder: "Enter email"
-                    },
-                    domProps: { value: _vm.email },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.email = $event.target.value
-                      }
-                    }
-                  })
-                ]),
+                  _c("td", [_vm._v(_vm._s(product.price * product.qty))])
+                ])
+              }),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", { attrs: { colspan: "4" } }),
                 _vm._v(" "),
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", { attrs: { for: "PhoneNumber" } }, [
-                    _vm._v("Phone Number")
-                  ]),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.phoneNumber,
-                        expression: "phoneNumber"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: {
-                      type: "text",
-                      id: "PhoneNumber",
-                      placeholder: "Phone Number"
-                    },
-                    domProps: { value: _vm.phoneNumber },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.phoneNumber = $event.target.value
-                      }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("br"),
-                _vm._v(" "),
-                _c("br"),
-                _vm._v(" "),
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col" }, [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-primary",
-                        attrs: { disabled: !_vm.formIsValid },
-                        on: {
-                          click: function($event) {
-                            $event.preventDefault()
-                            return _vm.handleCustomPayment($event)
-                          }
-                        }
-                      },
-                      [_vm._v("Widget Pay")]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col text-right" }, [
-                    _c("a", {
-                      attrs: {
-                        id: "mula-checkout-button",
-                        disabled: !_vm.formIsValid
-                      },
-                      on: {
-                        click: function($event) {
-                          if (
-                            !("button" in $event) &&
-                            _vm._k(
-                              $event.keyCode,
-                              "pevent",
-                              undefined,
-                              $event.key,
-                              undefined
-                            )
-                          ) {
-                            return null
-                          }
-                          return _vm.handlePayment($event)
-                        }
-                      }
-                    })
-                  ])
+                _c("td", { staticClass: "border-bottom" }, [
+                  _vm._v("Total Ksh: " + _vm._s(_vm.total))
                 ])
               ])
+            ],
+            2
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-4" }, [
+        _c("form", { staticClass: "text-left" }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.fname,
+                    expression: "fname"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text", placeholder: "First name" },
+                domProps: { value: _vm.fname },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.fname = $event.target.value
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.lname,
+                    expression: "lname"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text", placeholder: "Last name" },
+                domProps: { value: _vm.lname },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.lname = $event.target.value
+                  }
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "email" } }, [_vm._v("Email address")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.email,
+                  expression: "email"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                type: "email",
+                id: "email",
+                "aria-describedby": "emailHelp",
+                placeholder: "Enter email"
+              },
+              domProps: { value: _vm.email },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.email = $event.target.value
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "PhoneNumber" } }, [
+              _vm._v("Phone Number")
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.phoneNumber,
+                  expression: "phoneNumber"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                type: "text",
+                id: "PhoneNumber",
+                placeholder: "Phone Number"
+              },
+              domProps: { value: _vm.phoneNumber },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.phoneNumber = $event.target.value
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("br"),
+          _vm._v(" "),
+          _c("br"),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary",
+                  attrs: { disabled: !_vm.formIsValid },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.onRedirect($event)
+                    }
+                  }
+                },
+                [_vm._v("Redirect Pay")]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col text-right" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary",
+                  attrs: { disabled: !_vm.formIsValid },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.onExpressPay($event)
+                    }
+                  }
+                },
+                [_vm._v("Express Pay")]
+              )
             ])
           ])
         ])
+      ])
+    ])
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "text-center py-5 mt-5" }, [
-      _c(
-        "i",
-        { staticClass: "material-icons", staticStyle: { "font-size": "6em" } },
-        [_vm._v("remove_shopping_cart")]
-      )
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -28977,7 +28923,7 @@ var staticRenderFns = [
         attrs: { href: "#" }
       },
       [
-        _vm._v("Remove \n                                "),
+        _vm._v("Remove \n                            "),
         _c(
           "i",
           {
@@ -54087,85 +54033,6 @@ module.exports = function spread(callback) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 69 */,
-/* 70 */,
-/* 71 */,
-/* 72 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* unused harmony export authenticate */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getPaymentOptions; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
-/**
- * Created by joram on 4/23/18.
- */
-
-
-var auth_url = 'https://beep2.cellulant.com:9001/CheckoutV2/checkoutPublicAPI/oauth/token';
-var initiate_payment_url = 'https://beep2.cellulant.com:9001/CheckoutV2/checkoutPublicAPI/api/transaction';
-
-var headers = function headers(token) {
-  return {
-    Accepts: 'application/json',
-    Authorization: token.token_type + ' ' + token.access_token
-  };
-};
-
-var authenticate = function authenticate(next) {
-  var data = {
-    grant_type: 'client_credentials',
-    client_id: "3a403d43-dc47-4dc6-b537-41f055841e1d",
-    client_secret: "629YPDW97t0Fsj1GrafQVCtkgQizErPzk8CRk1Ns"
-  };
-  __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post(auth_url, data).then(function (response) {
-    next(response.data);
-  }).catch(function (error) {
-    console.log(error);
-  });
-};
-
-var getPaymentOptions = function getPaymentOptions() {
-  var client_code = "SWADEV9830";
-  var country = 'UG';
-  var language = 'en';
-
-  var payment_options_url = 'https://beep2.cellulant.com:9001/CheckoutV2/checkoutPublicAPI/api/payment/options/' + client_code + '?countryCode=' + country + '&languageCode=' + language;
-
-  authenticate(function (token) {
-    __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get(payment_options_url, { headers: headers(token) }).then(function (response) {
-      console.log(response.data);
-    }).catch(function (error) {
-      console.log(error);
-    });
-  });
-};
-
-var initiatePayment = function initiatePayment(transaction) {
-
-  var data = {
-    MSISDN: transaction.phone_number,
-    payerClientCode: 'MPESA',
-    serviceCode: "SWADEV9830",
-    countryCode: 'KE',
-    transactionReferenceID: '1001',
-    paymentOptionCode: 'Mobile Money',
-    paymentMode: 'STK Push',
-    currencyCode: 'KES',
-    amount: transaction.amount,
-    accountNumber: "784423",
-    language: 'en'
-  };
-
-  __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post(initiate_payment_url, data, headers).then(function (response) {
-    console.log(response.data);
-  }).catch(function (error) {
-    console.log(error);
-  });
-};
 
 /***/ })
 /******/ ]);
